@@ -1,15 +1,45 @@
 import { Router } from "express";
-import { getNotes, getNote, createNote, updateNote, deleteNote } from "../controllers/notes.controller.js";
+
+import {
+  getNotes,
+  getNote,
+  createNote,
+  updateNote,
+  deleteNote,
+} from "../controllers/notes.controller.js";
+
 import { authRequired } from "../middlewares/validateToken.js";
-import {validateSchema} from '../middlewares/validator.middleware.js'
+import { validateSchema } from "../middlewares/validator.middleware.js";
 import { createNoteSchema } from "../schemas/note.schema.js";
 
 const router = Router();
 
-router.get("/getNotes", authRequired, getNotes);
-router.get("/getNote/:id", authRequired, getNote);
-router.post("/getNote", authRequired,validateSchema(createNoteSchema), createNote);
-router.delete("/getNote/:id", authRequired, deleteNote);
-router.put("/getNote/:id", authRequired, updateNote);
+// Obtener todas las notas del usuario autenticado
+router.get("/notes", authRequired, getNotes);
+
+// Obtener una nota
+router.get("/notes/:id", authRequired, getNote);
+
+// Crear una nota
+router.post(
+  "/notes",
+  authRequired,
+  validateSchema(createNoteSchema),
+  createNote
+);
+
+// Actualizar una nota
+router.put(
+  "/notes/:id",
+  authRequired,
+  updateNote
+);
+
+// Eliminar una nota
+router.delete(
+  "/notes/:id",
+  authRequired,
+  deleteNote
+);
 
 export default router;
